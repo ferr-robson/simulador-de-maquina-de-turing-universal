@@ -9,18 +9,16 @@ function processarEntrada (word, turingMachine) {
   for(i = 0; i < turingMachine.funcaoTransicao.length; i++) {
     
     transicao = turingMachine.funcaoTransicao[i];
-    console.log(fitaEsquerda, estadoAtual, fitaDireita);
+    estadoFita = {
+      transicao: transicao,
+      fitaEsquerda: fitaEsquerda,
+      fitaDireita: fitaDireita,
+      estadoAtual: estadoAtual
+    }
 
-    if(transicaoEhCorreta(transicao, estadoAtual, fitaDireita)) {
+    if(transicaoEhCorreta(estadoFita)) {
 
-      let estadoFita = {
-        transicao: transicao,
-        fitaEsquerda: fitaEsquerda,
-        fitaDireita: fitaDireita,
-        estadoAtual: estadoAtual
-      }
-
-      let resultadoMovimento;
+      resultadoMovimento;
 
       if (transicao.movimento == "D") {
         resultadoMovimento = movimentoDireita(estadoFita);
@@ -32,20 +30,22 @@ function processarEntrada (word, turingMachine) {
       fitaDireita = resultadoMovimento.fitaDireita;
       fitaEsquerda = resultadoMovimento.fitaEsquerda;
       estadoAtual = resultadoMovimento.estadoAtual;
-      console.log(fitaEsquerda, estadoAtual, fitaDireita)
-      
-      return;//
+
+      // todo:
+      // remover o return
+      // executar operacoes ate que a palavra tenha sido consumida ou esteja em estado final
+      return;
     }
   }
 }
 
-function transicaoEhCorreta (transicao, estadoAtual, fitaDireita) {
+function transicaoEhCorreta (estadoFita) {
   
-  if (transicao.estadoAtual != estadoAtual) {
+  if (estadoFita.transicao.estadoAtual != estadoFita.estadoAtual) {
     return false;
   }
 
-  if (transicao.simboloLido == fitaDireita[0]) {
+  if (estadoFita.transicao.simboloLido == estadoFita.fitaDireita[0]) {
     return true;
   }
 
@@ -70,11 +70,17 @@ function movimentoEsquerda (estadoFita) {
 }
 
 function movimentoDireita (estadoFita) {
+  if (estadoFita.fitaDireita == "") {
+    estadoFita.fitaDireita = "B";
+  }
+
   estadoFita.fitaEsquerda += estadoFita.transicao.novoSimbolo;
   estadoFita.fitaDireita = estadoFita.fitaDireita.slice(1);
   estadoFita.estadoAtual = estadoFita.transicao.novoEstado;
   
   return estadoFita;
 }
+
+// todo: function movimentoEstatico (estadoFita) {}
 
 processarEntrada("aabbcc", turingMachine);
