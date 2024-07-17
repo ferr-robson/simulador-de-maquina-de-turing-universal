@@ -3,53 +3,45 @@ const turingMachine = require('./turingMachine');
 function processarEntrada (word, turingMachine) {
   
   fitaEsquerda = "B"
+  // todo: verificar se word pertence ao alfabeto de entrada
   fitaDireita = word + "B";
   estadoAtual = turingMachine.estadoInicial;
   
-  for(i = 0; i < turingMachine.funcaoTransicao.length; i++) {
-    
-    transicao = turingMachine.funcaoTransicao[i];
+  console.log(fitaEsquerda, estadoAtual, fitaDireita);
+
+  transicaoSimboloLido = selecionarTransicao(estadoAtual, turingMachine.funcaoTransicao, fitaDireita[0]);
+
+  let resultadoMovimento;
+
+  while (transicaoSimboloLido) {
     estadoFita = {
-      transicao: transicao,
+      transicao: transicaoSimboloLido,
       fitaEsquerda: fitaEsquerda,
       fitaDireita: fitaDireita,
       estadoAtual: estadoAtual
+    };
+
+    if (transicaoSimboloLido.movimento == "D") {
+      resultadoMovimento = movimentoDireita(estadoFita);
+    }
+    else {
+      resultadoMovimento = movimentoEsquerda(estadoFita);
     }
 
-    if(transicaoEhCorreta(estadoFita)) {
+    fitaDireita = resultadoMovimento.fitaDireita;
+    fitaEsquerda = resultadoMovimento.fitaEsquerda;
+    estadoAtual = resultadoMovimento.estadoAtual;
 
-      resultadoMovimento;
-
-      if (transicao.movimento == "D") {
-        resultadoMovimento = movimentoDireita(estadoFita);
-      }
-      else {
-        resultadoMovimento = movimentoEsquerda(estadoFita);
-      }
-
-      fitaDireita = resultadoMovimento.fitaDireita;
-      fitaEsquerda = resultadoMovimento.fitaEsquerda;
-      estadoAtual = resultadoMovimento.estadoAtual;
-
-      // todo:
-      // remover o return
-      // executar operacoes ate que a palavra tenha sido consumida ou esteja em estado final
-      return;
-    }
+    transicaoSimboloLido = selecionarTransicao(estadoAtual, turingMachine.funcaoTransicao, fitaDireita[0]);
+    console.log(fitaEsquerda, estadoAtual, fitaDireita);
   }
 }
 
-function transicaoEhCorreta (estadoFita) {
-  
-  if (estadoFita.transicao.estadoAtual != estadoFita.estadoAtual) {
-    return false;
-  }
+function selecionarTransicao (estadoAtual, funcaoTransicao, simboloLido) {
+  transicoesEstadoAtual = funcaoTransicao.filter(obj => obj.estadoAtual === estadoAtual);
+  transicaoSimboloLido = transicoesEstadoAtual.filter(obj => obj.simboloLido === simboloLido);
 
-  if (estadoFita.transicao.simboloLido == estadoFita.fitaDireita[0]) {
-    return true;
-  }
-
-  return false;
+  return transicaoSimboloLido[0];
 }
 
 function movimentoEsquerda (estadoFita) {
@@ -70,13 +62,13 @@ function movimentoEsquerda (estadoFita) {
 }
 
 function movimentoDireita (estadoFita) {
-  if (estadoFita.fitaDireita == "") {
-    estadoFita.fitaDireita = "B";
-  }
-
   estadoFita.fitaEsquerda += estadoFita.transicao.novoSimbolo;
   estadoFita.fitaDireita = estadoFita.fitaDireita.slice(1);
   estadoFita.estadoAtual = estadoFita.transicao.novoEstado;
+  
+  if (estadoFita.fitaDireita == "") {
+    estadoFita.fitaDireita = "B";
+  }
   
   return estadoFita;
 }

@@ -6,44 +6,50 @@ const turingMachine = {
     {
       "estadoAtual": "q1",
       "simboloLido": "a",
-      "novoSimbolo": "Y",
-      // "movimento": "D",
-      "movimento": "E",
+      "novoSimbolo": "X",
+      "movimento": "D",
+      // "movimento": "E",
       "novoEstado": "q1"
     },
     {
       "estadoAtual": "q1",
       "simboloLido": "b",
-      "novoSimbolo": "b",
+      "novoSimbolo": "Y",
       "movimento": "D",
       "novoEstado": "q2"
     },
     {
       "estadoAtual": "q1",
       "simboloLido": "c",
-      "novoSimbolo": "c",
+      "novoSimbolo": "Z",
       "movimento": "D",
       "novoEstado": "q3"
     },
     {
       "estadoAtual": "q2",
       "simboloLido": "b",
-      "novoSimbolo": "b",
+      "novoSimbolo": "Y",
       "movimento": "D",
       "novoEstado": "q2"
     },
     {
+      "estadoAtual": "q2",
+      "simboloLido": "c",
+      "novoSimbolo": "Z",
+      "movimento": "D",
+      "novoEstado": "q3"
+    },
+    {
       "estadoAtual": "q3",
       "simboloLido": "c",
-      "novoSimbolo": "c",
+      "novoSimbolo": "Z",
       "movimento": "D",
       "novoEstado": "q3"
     }
   ],
   "estadoInicial": "q1",
   "estadosFinais": ["q1, q2"],
-  "qAceita": "",
-  "qRejeita": "",
+  "estadoRejeicao": "qErro",
   "vazio": "B"
 };
 
