@@ -2,9 +2,9 @@ const turingMachine = require('./turingMachine');
 
 function processarEntrada (word, turingMachine) {
   
-  fitaEsquerda = "B"
+  fitaEsquerda = turingMachine.vazio;
   // todo: verificar se word pertence ao alfabeto de entrada
-  fitaDireita = word + "B";
+  fitaDireita = word + turingMachine.vazio;
   estadoAtual = turingMachine.estadoInicial;
   
   console.log(fitaEsquerda, estadoAtual, fitaDireita);
@@ -34,6 +34,13 @@ function processarEntrada (word, turingMachine) {
 
     transicaoSimboloLido = selecionarTransicao(estadoAtual, turingMachine.funcaoTransicao, fitaDireita[0]);
     console.log(fitaEsquerda, estadoAtual, fitaDireita);
+  }
+
+  if (turingMachine.estadosFinais.includes(estadoAtual)) {
+    console.log("aceita");
+  }
+  else {
+    console.log("rejeita");
   }
 }
 

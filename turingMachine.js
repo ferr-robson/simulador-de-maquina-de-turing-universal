@@ -48,7 +48,7 @@ const turingMachine = {
     }
   ],
   "estadoInicial": "q1",
-  "estadosFinais": ["q1, q2"],
+  "estadosFinais": ["q1", "q2"],
   "estadoRejeicao": "qErro",
   "vazio": "B"
 };
