@@ -61,8 +61,12 @@ function decidirMovimento (transicaoSimboloLido, estadoFita) {
 
   if (transicaoSimboloLido.movimento == "D") {
     resultadoMovimento = movimentoDireita(estadoFita);
-  } else {
+  } 
+  else if (transicaoSimboloLido.movimento == "E") {
     resultadoMovimento = movimentoEsquerda(estadoFita);
+  }
+  else if (transicaoSimboloLido.movimento == "S") {
+    resultadoMovimento = staticMovement(estadoFita);
   }
 
   return resultadoMovimento;
@@ -101,6 +105,11 @@ function movimentoDireita (estadoFita) {
   return estadoFita;
 }
 
-// todo: function movimentoEstatico (estadoFita) {}
+function staticMovement (estadoFita) {
+  
+  estadoFita.fitaDireita = estadoFita.transicao.novoSimbolo + estadoFita.fitaDireita.substring(1);
+  
+  return estadoFita;
+}
 
 processarEntrada("aabbcc", turingMachine);
