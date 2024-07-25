@@ -9,7 +9,7 @@ const turingMachine = {
       "estadoAtual": "q0",
       "simboloLido": "a",
       "novoSimbolo": "a",
-      "movimento": "D", // D direita, E esquerda, S static
+      "movimento": "D", // D right, E left, S static
       "novoEstado": "q0"
     },
     {

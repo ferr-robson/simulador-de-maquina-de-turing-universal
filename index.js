@@ -6,14 +6,14 @@
 
 function processarEntrada(fitaDeEntrada, turingMachine) {
   
-  estadoFita = {
+  let estadoFita = {
     fitaEsquerda: turingMachine.vazio,
     fitaDireita: fitaDeEntrada + turingMachine.vazio,
     estadoAtual: turingMachine.estadoInicial,
     turingMachine: turingMachine,
   }
 
-  estadoFinal = executeTuringMachine(estadoFita);
+  let estadoFinal = executeTuringMachine(estadoFita);
 
   if (turingMachine.estadosFinais.includes(estadoFinal)) {
     console.log("aceita");
@@ -24,27 +24,42 @@ function processarEntrada(fitaDeEntrada, turingMachine) {
 
 function executeTuringMachine(estadoFita) {
   
-  let transicaoSimboloLido = selecionarTransicao(estadoFita);
-
   console.log(estadoFita.fitaEsquerda, estadoFita.estadoAtual, estadoFita.fitaDireita);
   
-  while (transicaoSimboloLido) {
+  estadoFita.transicaoAtual = selecionarTransicao(estadoFita);
+  
+  while (estadoFita.transicaoAtual) {
 
-    estadoFita.transicaoAtual = transicaoSimboloLido;
-
-    estadoFita = realizarMovimento(transicaoSimboloLido, estadoFita);
+    estadoFita = realizarMovimento(estadoFita);
 
     console.log(estadoFita.fitaEsquerda, estadoFita.estadoAtual, estadoFita.fitaDireita);
 
-    transicaoSimboloLido = selecionarTransicao(estadoFita);
+    estadoFita.transicaoAtual = selecionarTransicao(estadoFita);
   }
 
   return estadoFita.estadoAtual
 }
 
-function realizarMovimento (transicaoSimboloLido, estadoFita) {
+function selecionarTransicao (estadoFita) { 
+
+  let funcaoTransicao = estadoFita.turingMachine.funcaoTransicao;
+  let simboloLido = getSimboloLido(estadoFita.fitaDireita);
+
+  let transicoesEstadoAtual = funcaoTransicao.filter(obj => obj.estadoAtual === estadoFita.estadoAtual);
+  let transicaoSimboloLido = transicoesEstadoAtual.filter(obj => obj.simboloLido === simboloLido);
+
+  return transicaoSimboloLido[0];
+}
+
+function getSimboloLido (fitaDireita) {
+
+  return fitaDireita[0];
+}
+
+function realizarMovimento (estadoFita) {
   
   let resultadoMovimento;
+  let transicaoSimboloLido = estadoFita.transicaoAtual;
 
   if (transicaoSimboloLido.movimento == "D") {
     resultadoMovimento = rightMovement(estadoFita);
@@ -61,38 +76,6 @@ function realizarMovimento (transicaoSimboloLido, estadoFita) {
   return resultadoMovimento;
 }
 
-function selecionarTransicao (estadoFita) { 
-
-  funcaoTransicao = estadoFita.turingMachine.funcaoTransicao;
-  simboloLido = getSimboloLido(estadoFita.fitaDireita);
-
-  transicoesEstadoAtual = funcaoTransicao.filter(obj => obj.estadoAtual === estadoFita.estadoAtual);
-  transicaoSimboloLido = transicoesEstadoAtual.filter(obj => obj.simboloLido === simboloLido);
-
-  return transicaoSimboloLido[0];
-}
-
-function getSimboloLido (fitaDireita) {
-
-  return fitaDireita[0];
-}
-
-function leftMovement (estadoFita) { 
-  
-  if (estadoFita.fitaEsquerda == "") {
-    return; //erro
-  }
-
-  estadoFita.fitaDireita = 
-    estadoFita.fitaEsquerda.charAt(estadoFita.fitaEsquerda.length - 1) + 
-    estadoFita.transicaoAtual.novoSimbolo + 
-    estadoFita.fitaDireita.slice(1);
-
-  estadoFita.fitaEsquerda = estadoFita.fitaEsquerda.slice(0, -1);
-
-  return estadoFita;
-}
-
 function rightMovement (estadoFita) { 
   
   estadoFita.fitaEsquerda += estadoFita.transicaoAtual.novoSimbolo;
@@ -102,6 +85,22 @@ function rightMovement (estadoFita) {
     estadoFita.fitaDireita = estadoFita.turingMachine.vazio;
   }
   
+  return estadoFita;
+}
+
+function leftMovement (estadoFita) { 
+  
+  if (estadoFita.fitaEsquerda == "") {
+    return;
+  }
+
+  estadoFita.fitaDireita = 
+    estadoFita.fitaEsquerda.charAt(estadoFita.fitaEsquerda.length - 1) + 
+    estadoFita.transicaoAtual.novoSimbolo + 
+    estadoFita.fitaDireita.slice(1);
+
+  estadoFita.fitaEsquerda = estadoFita.fitaEsquerda.slice(0, -1);
+
   return estadoFita;
 }
 
