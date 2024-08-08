@@ -2,7 +2,7 @@
 
 ## Índice
 
-- [1. MANUAL DO USUÁRIO](#1.-manual-do-usuário)
+- [1. MANUAL DO USUÁRIO](#manual-do-usuário)
   - [1.1. PREPARANDO O AMBIENTE DE DESENVOLVIMENTO](#1.1.-preparando-o-ambiente-de-desenvolvimento)
   - [1.2. FORNECENDO A DESCRIÇÃO DA MÁQUINA DE TURING](#1.2.-fornecendo-a-descrição-da-máquina-de-turing)
   - [1.3. EXECUTANDO O PROGRAMA](#1.3.-executando-o-programa)
@@ -57,10 +57,15 @@ node index.js aab ./tests/example.js
 Ao receber o texto da fita de entrada e o caminho para o arquivo de descrição da Máquina de Turing no comando de execução (node index.js [fita de entrada] [caminho do arquivo de descrição da MT]), o simulador começa a processar os dados na função processarEntrada(). Esta função monta um objeto com o estado atual (inicialmente o estado inicial), o objeto da Máquina de Turing fornecida e as posições esquerda e direita da cabeça de leitura e gravação. Esse objeto é posteriormente passado para a função executarMaquinaTuring().
 A função executarMaquinaTuring() é responsável por mostrar a configuração da fita de entrada e aplicar as transições apropriadas, utilizando a função selecionarTransicao().
 A seleção da transição correta ocorre em duas etapas: primeiro, são selecionadas todas as transições do estado em que a máquina está atualmente; em seguida, é aplicado um filtro para identificar apenas a transição correspondente ao símbolo atualmente sendo lido. A função selecionarTransicao() retorna o objeto referente à transição do símbolo atualmente lido para a função executarMaquinaTuring().
+
 De volta para a função executarMaquinaTuring(), um novo campo é adicionado ao objeto estadoFita, que havia sido recebido pela função processarEntrada(). Este novo campo recebe o retorno da função selecionarTransicao() e é utilizado numa estrutura de repetição para determinar o critério de parada da Máquina de Turing, que ocorre quando não há mais transições disponíveis para o símbolo que está sendo lido.
+
 A estrutura de repetição da função executarMaquinaTuring() tem como objetivo repetir o processo de movimentar a cabeça de leitura e gravação e fazer as devidas alterações na fita através da função realizarMovimento(). O loop também exibe, novamente, a configuração da fita e então seleciona uma nova transição.
+
 A função realizarMovimento() recebe o objeto estadoFita, que é usado para identificar a transição atual e o movimento que ela realiza (D para direita, E para esquerda, S para estático). Para cada tipo de movimento, existe uma função específica que realiza as alterações correspondentes nas partes esquerda e direita da cabeça de leitura e gravação.
+
 Para assegurar o funcionamento correto da máquina, as funções movimentoDireita() e movimentoEsquerda() incluem condições que verificam a fita e realizam operações específicas. movimentoDireita() adiciona um novo símbolo vazio ao final da fita (à direita) quando a cabeça de leitura e gravação alcança o final da fita, simulando assim uma fita infinita para a direita. movimentoEsquerda() retorna undefined se o objetivo for fazer um movimento para a esquerda e a cabeça de leitura e gravação estiver apontando para o primeiro símbolo da fita.
+
 Quando o loop na função executarMaquinaTuring() é concluído, a função retorna o estado no qual a máquina parou para a função processarEntrada(). Esta última função verifica se o estado é final, aceitando a palavra se for o caso, ou recusando-a caso contrário.
 
 ## 2.2. DESAFIOS ENCONTRADOS E AS SOLUÇÕES ADOTADAS
@@ -82,49 +87,76 @@ Essa máquina decide para a linguagem L = {w ∈ {0,1}* ∣ w contém pelo menos
 
 ## 3.1.1. Resultado Esperado e Resultado Obtido Para 0110
 Resultado esperado: é esperado que a máquina aceite a palavra “0110”
+
 `node index.js 0110 ./tests/test_01.js`
+
 Resultado obtido:
+
 _ q0 0110_
+
 _0 q0 110_
+
 _01 q1 10_
+
 _011 q1 0_
+
 _0110 q2 _
+
 _0110_ q3 _
+
 aceita
 
 ## 3.1.2. Resultado Esperado e Resultado Obtido Para 01
 Resultado esperado: é esperado que a máquina rejeite a palavra “01”
+
 `node index.js 01 ./tests/test_01.js`
+
 Resultado obtido:
+
 _ q0 01_
+
 _0 q0 1_
+
 _01 q1 _
+
 rejeita 
 
 ## 3.2. TESTE DE LOOP À DIREITA
 Existe a possibilidade da Máquina de Turing entrar em loop de acordo com a palavra e a função de transição apresentada. Para testar se a aplicação é capaz de simular o loop à direita foi criada a MT de testes `./tests/test_rightLoop.js`.
 
 ## 3.2.1. Entrada Fornecida e Resultados Esperados
-A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste de loop à direita. `node index.js a ./tests/test_rightLoop.js`
+A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste de loop à direita. 
+`node index.js a ./tests/test_rightLoop.js`
+
 O resultado esperado é um loop onde é lido o último símbolo vazio da fita, que será substituído por “Y”. Em seguida um novo símbolo vazio é adicionado ao final da fita. O procedimento deve se repetir até que o programa seja encerrado. Esse comportamento é esperado devido à condicional dentro da função movimentoDireita(), que verifica se o lado direito da fita está vazio e, se estiver, adiciona um novo símbolo vazio à direita.
 
 ## 3.3. TESTE DE QUEBRA À ESQUERDA
 Quando a cabeça de leitura e gravação aponta para o primeiro símbolo da fita, não pode ser possível fazer um movimento à esquerda. Para testar se a aplicação é capaz de simular a “quebra” da máquina ao fazer um movimento à esquerda no primeiro símbolo é usado a Máquina de Turing do arquivo `./tests/test_leftProblem.js`.
 
 ## 3.3.1. Entrada Fornecida e Resultados Esperados
-A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste do problema à esquerda. `node index.js a ./tests/test_leftProblem.js`.
-O resultado esperado é um erro na atribuição de transicaoSimboloLido.novoEstado para resultadoMovimento.estadoAtual, na função realizarMovimento(). O erro ocorre devido ao condicional da função leftMovement(), que verifica se a cabeça de leitura e gravação já está apontando para o primeiro símbolo da fita e, se estiver, retorna undefined para a função que chamou o método leftMovement().
+A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste do problema à esquerda. 
+`node index.js a ./tests/test_leftProblem.js`.
+
+O resultado esperado é um erro na atribuição de transicaoSimboloLido.novoEstado para resultadoMovimento.estadoAtual, na função realizarMovimento(). O erro ocorre devido ao condicional da função movimentoEsquerda(), que verifica se a cabeça de leitura e gravação já está apontando para o primeiro símbolo da fita e, se estiver, retorna undefined para a função que chamou o método movimentoEsquerda().
 
 ## 3.4. TESTE DO MOVIMENTO ESTÁTICO
 É possível verificar a funcionalidade de transições estáticas na Máquina de Turing do arquivo `./tests/test_abc.js`, que possui um movimento estático de q2 para q3, ao ler um símbolo vazio. Apresentando uma palavra válida para esta MT, é possível ver esta funcionalidade.
 
 ## 3.4.1. Entrada Fornecida e Resultados Esperados
 Resultado esperado: Passando uma palavra válida deve-se observar o movimento estático de q2 para q3 na última transição.
+
 `node index.js abc ./tests/test_abc.js`
+
 Resultado observado:
+
 B q0 abcB
+
 Ba q0 bcB
+
 Bab q1 cB
+
 Babc q2 B
+
 Babc q3 B
+
 aceita 
