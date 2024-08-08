@@ -2,7 +2,7 @@
 
 ## Índice
 
-- [1. MANUAL DO USUÁRIO](#manual-do-usuário)
+- [MANUAL DO USUÁRIO](#manual-do-usuário)
   - [1.1. PREPARANDO O AMBIENTE DE DESENVOLVIMENTO](#1.1.-preparando-o-ambiente-de-desenvolvimento)
   - [1.2. FORNECENDO A DESCRIÇÃO DA MÁQUINA DE TURING](#1.2.-fornecendo-a-descrição-da-máquina-de-turing)
   - [1.3. EXECUTANDO O PROGRAMA](#1.3.-executando-o-programa)
@@ -23,7 +23,7 @@
   - [3.4. TESTE DO MOVIMENTO ESTÁTICO](#3.4.-teste-do-movimento-estático)
     - [3.4.1. Entrada Fornecida e Resultados Esperados](#3.4.1.-entrada-fornecida-e-resultados-esperados)
 
-## 1. MANUAL DO USUÁRIO
+## MANUAL DO USUÁRIO
 
 ## 1.1. PREPARANDO O AMBIENTE DE DESENVOLVIMENTO
 - Baixe o repositório
