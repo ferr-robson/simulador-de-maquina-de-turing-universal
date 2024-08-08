@@ -1,5 +1,7 @@
 # Simulador de Máquina de Turing 
 
+## Autor: Robson Ferreira
+
 ## Índice
 
 - [MANUAL DO USUÁRIO](#manual-do-usuário)
