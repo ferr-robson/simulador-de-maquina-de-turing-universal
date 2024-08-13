@@ -4,6 +4,8 @@
  * Description: This file contains a Universal Turing Machine simulator.
  */
 
+let fitaTransicoes = [];
+
 /**
  * Função que processa a entrada fornecida através de uma máquina de Turing.
  * @param {string} fitaEntrada - A entrada a ser processada pela máquina de Turing.
@@ -24,12 +26,21 @@ function processarEntrada (fitaEntrada, maquinaTuring) {
   // Executa a máquina de Turing com o estado inicial da fita e obtém o estado final resultante.
   let estadoFinal = executarMaquinaTuring(estadoFita);
 
+  while (!palavraEhAceita(maquinaTuring, estadoFinal)) {
+    estadoFinal = executarMaquinaTuring(fitaTransicoes.shift());
+  }
+}
+
+function palavraEhAceita (maquinaTuring, estadoFinal) {
+  
   // Verifica se o estado final é um dos estados finais aceitos pela máquina de Turing.
   // Se sim, a entrada é aceita; caso contrário, é rejeitada.
   if (maquinaTuring.estadosFinais.includes(estadoFinal)) {
     console.log("aceita");
+    return true;
   } else {
     console.log("rejeita");
+    return false;
   }
 }
 
@@ -43,8 +54,9 @@ function executarMaquinaTuring (estadoFita) {
   // Imprime a configuração atual da fita.
   console.log(estadoFita.fitaEsquerda, estadoFita.estadoAtual, estadoFita.fitaDireita);
   
-  // Seleciona a transição a ser aplicada com base no estado atual e na configuração da fita.
-  estadoFita.transicaoAtual = selecionarTransicao(estadoFita);
+  if (!estadoFita.transicaoAtual)
+    // Seleciona a transição a ser aplicada com base no estado atual e na configuração da fita.
+    estadoFita.transicaoAtual = selecionarTransicao(estadoFita);
   
   // Continua aplicando transições enquanto houver uma transição válida.
   while (estadoFita.transicaoAtual) {
@@ -82,8 +94,20 @@ function selecionarTransicao (estadoFita) {
   // Dentro das transições possíveis para o estado atual, filtra aquelas que correspondem ao símbolo lido.
   let transicaoSimboloLido = transicoesEstadoAtual.filter(obj => obj.simboloLido === simboloLido);
 
+  if (transicaoSimboloLido.length > 1) {
+    adicionarTransicoesND(transicaoSimboloLido.slice(1), estadoFita);
+  }
+
   // Retorna a primeira transição correspondente ou undefined se nenhuma for encontrada.
   return transicaoSimboloLido[0];
+}
+
+function adicionarTransicoesND (transicoesND, estadoFita) {
+  
+  for (i = 0; i < transicoesND.length; i++) {
+    estadoFita.transicaoAtual = transicoesND[i];
+    fitaTransicoes.push({...estadoFita});
+  }
 }
 
 /**
