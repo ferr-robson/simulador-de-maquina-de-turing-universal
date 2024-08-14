@@ -57,7 +57,9 @@ node index.js aab ./tests/example.js
 
 ### COMO O SIMULADOR FUNCIONA
 Ao receber o texto da fita de entrada e o caminho para o arquivo de descrição da Máquina de Turing no comando de execução (node index.js [fita de entrada] [caminho do arquivo de descrição da MT]), o simulador começa a processar os dados na função processarEntrada(). Esta função monta um objeto com o estado atual (inicialmente o estado inicial), o objeto da Máquina de Turing fornecida e as posições esquerda e direita da cabeça de leitura e gravação. Esse objeto é posteriormente passado para a função executarMaquinaTuring().
+
 A função executarMaquinaTuring() é responsável por mostrar a configuração da fita de entrada e aplicar as transições apropriadas, utilizando a função selecionarTransicao().
+
 A seleção da transição correta ocorre em duas etapas: primeiro, são selecionadas todas as transições do estado em que a máquina está atualmente; em seguida, é aplicado um filtro para identificar apenas a transição correspondente ao símbolo atualmente sendo lido. A função selecionarTransicao() retorna o objeto referente à transição do símbolo atualmente lido para a função executarMaquinaTuring().
 
 De volta para a função executarMaquinaTuring(), um novo campo é adicionado ao objeto estadoFita, que havia sido recebido pela função processarEntrada(). Este novo campo recebe o retorno da função selecionarTransicao() e é utilizado numa estrutura de repetição para determinar o critério de parada da Máquina de Turing, que ocorre quando não há mais transições disponíveis para o símbolo que está sendo lido.
