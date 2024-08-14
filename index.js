@@ -26,7 +26,7 @@ function processarEntrada (fitaEntrada, maquinaTuring) {
   // Executa a máquina de Turing com o estado inicial da fita e obtém o estado final resultante.
   let estadoFinal = executarMaquinaTuring(estadoFita);
 
-  while (!palavraEhAceita(maquinaTuring, estadoFinal)) {
+  while (!palavraEhAceita(maquinaTuring, estadoFinal) && fitaTransicoes.length > 0) {
     estadoFinal = executarMaquinaTuring(fitaTransicoes.shift());
   }
 }
