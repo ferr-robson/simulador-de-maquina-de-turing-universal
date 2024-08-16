@@ -1,62 +1,48 @@
-// L = {w ∈ {a,b}* ∣ w pode ser decomposto como w = xby onde x ∈ {a}* e y ∈ {ϵ}}
+// L = {w ∈ {0,1}* ∣ w termina com 0}
 
 const turingMachine = {
-  "estados": ["q0","q1","q2"],
-  "alfabetoEntrada": ["a", "b"],
-  "alfabetoFita": ["a","b","_"],
+  "estados": ["q0","q1"],
+  "alfabetoEntrada": ["0", "1"],
+  "alfabetoFita": ["0","1","_"],
   "funcaoTransicao": [
     {
       "estadoAtual": "q0",
-      "simboloLido": "a",
-      "novoSimbolo": "a",
-      "movimento": "D", // D right, E left, S static
+      "simboloLido": "0",
+      "novoSimbolo": "0",
+      "movimento": "D",
       "novoEstado": "q0"
     },
     {
       "estadoAtual": "q0",
-      "simboloLido": "b",
-      "novoSimbolo": "b",
+      "simboloLido": "0",
+      "novoSimbolo": "0",
       "movimento": "D",
       "novoEstado": "q1"
     },
     {
       "estadoAtual": "q0",
-      "simboloLido": "b",
-      "novoSimbolo": "b",
+      "simboloLido": "1",
+      "novoSimbolo": "1",
       "movimento": "D",
-      "novoEstado": "q2"
+      "novoEstado": "q0"
     },
     {
       "estadoAtual": "q1",
-      "simboloLido": "a",
-      "novoSimbolo": "a",
+      "simboloLido": "0",
+      "novoSimbolo": "0",
       "movimento": "D",
-      "novoEstado": "qErro"
+      "novoEstado": "q1"
     },
     {
       "estadoAtual": "q1",
-      "simboloLido": "b",
-      "novoSimbolo": "b",
+      "simboloLido": "1",
+      "novoSimbolo": "1",
       "movimento": "D",
-      "novoEstado": "qErro"
+      "novoEstado": "q0"
     },
-    {
-      "estadoAtual": "qErro",
-      "simboloLido": "a",
-      "novoSimbolo": "a",
-      "movimento": "D",
-      "novoEstado": "qErro"
-    },
-    {
-      "estadoAtual": "qErro",
-      "simboloLido": "b",
-      "novoSimbolo": "b",
-      "movimento": "D",
-      "novoEstado": "qErro"
-    }
   ],
   "estadoInicial": "q0",
-  "estadosFinais": ["q2"],
+  "estadosFinais": ["q1"],
   "estadoRejeicao": "qErro",
   "vazio": "_"
 };
