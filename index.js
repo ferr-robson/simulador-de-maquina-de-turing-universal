@@ -1,5 +1,5 @@
 /**
- * Author: Robson Junior
+ * Author: Robson Ferreira
  * Creation date: July 16, 2024
  * Description: This file contains a Universal Turing Machine simulator.
  */
