@@ -37,7 +37,7 @@
 - As descrições das máquinas de turing são guardadas em arquivos separados
 - Crie um novo arquivo JavaScript dentro do diretório principal do projeto
 - Configure o arquivo criado com a descrição da Máquina de Turing desejada
-- O arquivo example.js guarda um exemplo de uma máquina de turing para a linguagem a*b. Esse arquivo deve ser usado de referência para outras Máquinas de Turing
+- O arquivo `example.js` guarda um exemplo de uma máquina de turing para a linguagem a*b. Esse arquivo deve ser usado de referência para outras Máquinas de Turing
 
 ### EXECUTANDO O PROGRAMA
 - No terminal, navegue até o diretório que contém o arquivo `index.js` do projeto
@@ -60,24 +60,36 @@ Ao receber a palavra de entrada e o caminho para o arquivo de descrição da Má
 
 A função `executarMaquinaTuring()` é responsável por mostrar a configuração da fita de entrada e aplicar as transições apropriadas, utilizando a função `selecionarTransicao()`.
 
-A seleção da transição correta ocorre em duas etapas: primeiro, são selecionadas todas as transições do estado em que a máquina está atualmente; em seguida, é aplicado um filtro para identificar apenas a transição correspondente ao símbolo atualmente sendo lido. A função `selecionarTransicao()` retorna o objeto referente à transição do símbolo atualmente lido para a função `executarMaquinaTuring()`. Se houver não determinísmo ao ler o símbolo, a função retorna a primeira transição encontrada e envia as demais para a função `adicionarTransicoesND()`, que fará a adição da configuração atual da fita e a transição não determinística no array `fitaTransicoes`.
+A seleção da transição correta ocorre em duas etapas: primeiro, são selecionadas todas as transições do estado em que a máquina está atualmente; em seguida, é aplicado um filtro para identificar apenas a transição correspondente ao símbolo atualmente sendo lido. A função `selecionarTransicao()` retorna o objeto referente à transição do símbolo atualmente lido para a função `executarMaquinaTuring()`. Se houver não-determinísmo ao ler o símbolo, a função retorna a primeira transição encontrada e envia as demais para a função `adicionarTransicoesND()`, que fará a adição da configuração atual da fita e as transições não-determinísticas, no array `fitaTransicoes`.
 
 De volta para a função `executarMaquinaTuring()`, um novo campo é adicionado ao objeto de configuração da fita principal, que havia sido recebido pela função `processarEntrada()`. Este novo campo recebe o retorno da função `selecionarTransicao()` e é utilizado numa estrutura de repetição para determinar o critério de parada da Máquina de Turing, que ocorre quando não há mais transições disponíveis para o símbolo que está sendo lido.
 
 A estrutura de repetição da função `executarMaquinaTuring()` tem como objetivo repetir o processo de movimentar a cabeça de leitura e gravação e fazer as devidas alterações na fita através da função `realizarMovimento()`. O loop também exibe, novamente, a configuração da fita e então seleciona uma nova transição.
 
-A função `realizarMovimento()` recebe o objeto de configuração da fita principal, que é usado para identificar a transição atual e o movimento que ela deve realiza (D para direita, E para esquerda, S para estático). Para cada tipo de movimento, existe uma função específica que realiza as alterações correspondentes nas partes esquerda e direita da cabeça de leitura e gravação.
+A função `realizarMovimento()` recebe o objeto de configuração da fita principal, que é usado para identificar a transição atual e o movimento que deve ser feito (D para direita, E para esquerda, S para estático). Para cada tipo de movimento, existe uma função específica que realiza as alterações correspondentes nas partes a esquerda e a direita da cabeça de leitura e gravação.
 
 Para assegurar o funcionamento correto da máquina, as funções `movimentoDireita()` e `movimentoEsquerda()` incluem condições que verificam a fita e realizam operações específicas. `movimentoDireita()` adiciona um novo símbolo vazio ao final da fita (à direita) quando a cabeça de leitura e gravação alcança o final da fita, simulando assim uma fita infinita para a direita. `movimentoEsquerda()` retorna undefined se o objetivo for fazer um movimento para a esquerda e a cabeça de leitura e gravação estiver apontando para o primeiro símbolo da fita, gerando erro.
 
 Quando o loop na função `executarMaquinaTuring()` é concluído, a função retorna o estado no qual a máquina parou para a função `processarEntrada()`, que vai verificar se a palavra é aceita e se não houve nenhuma transição não-determinística salva no objeto `fitaTransicoes`. 
 
-Se `fitaTransicoes` não for vazio e a palavra não foi aceita, será enviada a primeira configuração em `fitaTransicoes`para a função `executarMaquinaTuring()`. O código continua remove esta primeira configuração enviada e repete o processo até que `fitaTransicoes` esteja vazio ou que alguma configuração seja aceita.
+Se `fitaTransicoes` não for vazio e o processamento ainda não foi aceito, siguinifica que houveram transições não-determinísticas. Nesse caso, a primeira configuração em `fitaTransicoes` será removida do array e enviada para a função `executarMaquinaTuring()`. O código repete o processo até que `fitaTransicoes` esteja vazio ou que alguma configuração seja aceita.
 
 ### DESAFIOS ENCONTRADOS E AS SOLUÇÕES ADOTADAS
 
 #### Definir o que é Fita
-O primeiro problema encontrado foi o de definir o que é a fita e como ela vai funcionar no aplicativo. A solução adotada foi a de dividir a fita em o que já foi lido e o que ainda vai ser ou está sendo lido, nos campos `parteEsquerda` e `parteDireita`, do objeto `configuracaoFita`. Desta forma é possível usar a sintaxe xQy, onde x é o que já foi lido, Q é o estado atual e y é o que ainda vai ser lido, onde o primeiro símbolo de y é onde a cabeça de leitura e gravação está apontando.
+O primeiro desafio foi definir o conceito de "fita" e seu funcionamento no aplicativo. Para resolver esse problema, dividimos a fita em duas partes: o que já foi lido e o que ainda será ou está sendo lido. Essas partes são representadas pelos campos `parteEsquerda` e `parteDireita` do objeto `configuracaoFita`.
+
+Dessa forma, utilizamos a sintaxe `xQy`, onde:
+- `x` representa o que já foi lido,
+- `Q` é o estado atual,
+- `y` é o que ainda será lido, com o primeiro símbolo de y indicando a posição da cabeça de leitura e gravação.
+
+Esse método é aplicado tanto na configuração da fita principal quanto na saída visual do programa. Por exemplo, para a entrada `node index.js aab ./example.js`, a saída visual será:
+- `_ q0 aab_`
+- `_a q0 ab_`
+- `_aa q0 b_`
+- `_aab q1 _`
+- aceita 
 
 #### Simular a Fita Infinita Para a Direita
 Mais adiante, notou-se que o programa era incapaz de simular uma fita infinita para a direita. A fim de solucionar o problema, na função de movimento para a direita, foi adicionada uma condicional para verificar se a parte direita da fita está vazia e, se estiver, ela será preenchida com o símbolo que representa o vazio na descrição de Máquina de Turing oferecida.
