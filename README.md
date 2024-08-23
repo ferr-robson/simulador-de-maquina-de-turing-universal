@@ -25,8 +25,8 @@
     - [Entrada Fornecida e Resultados Esperados - Movimento Esquerda](#entrada-fornecida-e-resultados-esperados---movimento-esquerda)
   - [TESTE DO MOVIMENTO ESTÁTICO](#teste-do-movimento-estático)
     - [Entrada Fornecida e Resultados Esperados - Movimento Estático](#entrada-fornecida-e-resultados-esperados---movimento-estático)
-  - [TESTE DO NÃO DETERMINISMO](#teste-do-nao-determinismo)
-    - [Entrada Fornecida e Resultados Esperados - Não Determinismo](#entrada-fornecida-e-resultados-esperados---nao-determinismo)
+  - [TESTE DO NÃO DETERMINISMO](#teste-do-não-determinismo)
+    - [Entrada Fornecida e Resultados Esperados - Não Determinismo](#entrada-fornecida-e-resultados-esperados---não-determinismo)
 
 ## MANUAL DO USUÁRIO
 
