@@ -145,7 +145,7 @@ Resultado obtido:
 ### TESTE DE LOOP À DIREITA
 Existe a possibilidade da Máquina de Turing entrar em loop de acordo com a palavra e a função de transição apresentada. Para testar se a aplicação é capaz de simular o loop à direita foi criada a MT de testes `./tests/test_rightLoop.js`.
 
-#### Entrada Fornecida e Resultados Esperados
+#### Entrada Fornecida e Resultados Esperados - Movimento Direita
 A fita de entrada deve conter apenas o símbolo "a" e o arquivo de teste de loop à direita.
 
 ```sh
