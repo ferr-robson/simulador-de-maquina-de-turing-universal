@@ -111,47 +111,36 @@ Dessa forma, a aplicação tornou-se capaz simular o comportamento de uma Máqui
 
 ### APLICAÇÃO FUNCIONA CORRETAMENTE
 O arquivo `./tests/test_01.js` guarda a configuração de uma Máquina de Turing que deve ser usada para verificar se a aplicação é capaz de processar uma palavra corretamente, decidindo se a palavra fornecida na fita de entrada é aceita. 
-Essa máquina decide para a linguagem L = {w ∈ {0,1}* ∣ w contém pelo menos um ‘1’ e w termina com ‘0’}
+Essa máquina decide para a linguagem L = {w ∈ {0,1}* ∣ w contém pelo menos um '1' e w termina com '0'}
 
 #### Resultado Esperado e Resultado Obtido Para 0110
-Resultado esperado: é esperado que a máquina ACEITE a palavra “0110”
+Resultado esperado: é esperado que a máquina ACEITE a palavra "0110", que pertence à linguagem.
 
 ```sh
 node index.js 0110 ./tests/test_01.js
 ```
 
 Resultado obtido:
-
-_ q0 0110_
-
-_0 q0 110_
-
-_01 q1 10_
-
-_011 q1 0_
-
-_0110 q2 _
-
-_0110_ q3 _
-
-aceita
+- `_ q0 0110_`
+- `_0 q0 110_`
+- `_01 q1 10_`
+- `_011 q1 0_`
+- `_0110 q2 _`
+- `_0110_ q3 _`
+- `aceita`
 
 #### Resultado Esperado e Resultado Obtido Para 01
-Resultado esperado: é esperado que a máquina REJEITE a palavra “01”
+Resultado esperado: é esperado que a máquina REJEITE a palavra "01", pois ela não pertence à linguagem.
 
 ```sh
 node index.js 01 ./tests/test_01.js
 ```
 
 Resultado obtido:
-
-_ q0 01_
-
-_0 q0 1_
-
-_01 q1 _
-
-rejeita 
+- `_ q0 01_`
+- `_0 q0 1_`
+- `_01 q1 _`
+- `rejeita`
 
 ### TESTE DE LOOP À DIREITA
 Existe a possibilidade da Máquina de Turing entrar em loop de acordo com a palavra e a função de transição apresentada. Para testar se a aplicação é capaz de simular o loop à direita foi criada a MT de testes `./tests/test_rightLoop.js`.
