@@ -14,6 +14,7 @@
     - [Definir o que é Fita](#definir-o-que-é-fita)
     - [Simular a Fita Infinita Para a Direita](#simular-a-fita-infinita-para-a-direita)
     - [Quebrar ao Movimentar Para a Esquerda no Primeiro Símbolo](#quebrar-ao-movimentar-para-a-esquerda-no-primeiro-símbolo)
+    - [Simular o Não Determinismo](#simular-o-não-determinismo)
 - [RELATÓRIO DE TESTES](#relatório-de-testes)
   - [APLICAÇÃO FUNCIONA CORRETAMENTE](#aplicação-funciona-corretamente)
     - [Resultado Esperado e Resultado Obtido Para 0110](#resultado-esperado-e-resultado-obtido-para-0110)
@@ -77,7 +78,7 @@ Se `fitaTransicoes` não for vazio e o processamento ainda não foi aceito, sigu
 ### DESAFIOS ENCONTRADOS E AS SOLUÇÕES ADOTADAS
 
 #### Definir o que é Fita
-O primeiro desafio foi definir o conceito de "fita" e seu funcionamento no aplicativo. Para resolver esse problema, dividimos a fita em duas partes: o que já foi lido e o que ainda será ou está sendo lido. Essas partes são representadas pelos campos `parteEsquerda` e `parteDireita` do objeto `configuracaoFita`.
+O primeiro desafio foi definir o conceito de "fita" e seu funcionamento no aplicativo. Para resolver esse problema, a fita foi dividida em duas partes: o que já foi lido e o que ainda será ou está sendo lido. Essas partes são representadas pelos campos `parteEsquerda` e `parteDireita` do objeto `configuracaoFita`.
 
 Dessa forma, utilizamos a sintaxe `xQy`, onde:
 - `x` representa o que já foi lido,
@@ -89,13 +90,22 @@ Esse método é aplicado tanto na configuração da fita principal quanto na sa�
 - `_a q0 ab_`
 - `_aa q0 b_`
 - `_aab q1 _`
-- aceita 
+- `aceita`
 
 #### Simular a Fita Infinita Para a Direita
 Mais adiante, notou-se que o programa era incapaz de simular uma fita infinita para a direita. A fim de solucionar o problema, na função de movimento para a direita, foi adicionada uma condicional para verificar se a parte direita da fita está vazia e, se estiver, ela será preenchida com o símbolo que representa o vazio na descrição de Máquina de Turing oferecida.
 
 #### Quebrar ao Movimentar Para a Esquerda no Primeiro Símbolo
-Por fim, notou-se a necessidade de garantir que, ao apontar para o primeiro símbolo da fita e tentar fazer um movimento para a esquerda, a máquina “quebre”. Para simular este comportamento foi adicionado uma condicional dentro da função de movimento para a esquerda que retorna undefined para o método que o chamar, fazendo com que o método `realizarMovimento()` dispare um erro e pare a execução da aplicação.
+Também foi identificado a necessidade de garantir que a máquina "quebre" ao tentar mover-se para a esquerda quando estiver apontando para o primeiro símbolo da fita. Para simular esse comportamento, foi adicionada uma condicional na função de movimentação para a esquerda. Se a máquina tentar se mover para a esquerda a partir do primeiro símbolo, a condicional faz com que a função retorne `undefined`.
+
+Esse retorno faz com que o método `realizarMovimento()` dispare um erro e interrompa a execução da aplicação, simulando assim o comportamento esperado para uma fita que não pode ser estendida para a esquerda além do primeiro símbolo.
+
+#### Simular o Não Determinismo
+Uma Máquina de Turing Universal pode simular o comportamento de uma Máquina de Turing não determinística ao manter todas as possíveis configurações da fita principal em uma de suas fitas. Isso permite que, se a primeira configuração não for aceita, a máquina possa processar as demais configurações até que elas se esgotem ou que uma delas seja aceita.
+
+Para simular esse comportamento na aplicação, foi adicionado o array `fitaTransicoes`. Sempre que a função `selecionarTransicao()` encontra mais de uma transição possível para o símbolo atualmente lido, ela retorna a primeira transição encontrada e envia as demais transições para o método `adicionarTransicoesND()`. Esse método é responsável por adicionar, para cada transição não determinística, um novo campo na variável `fitaTransicoes`. Cada campo contém uma das transições não determinísticas e a configuração da fita principal no momento em que o não-determinismo ocorreu.
+
+Dessa forma, a aplicação tornou-se capaz simular o comportamento de uma Máquina de Turing não determinística ao explorar todas as possibilidades de transição e suas respectivas configurações.
 
 ## RELATÓRIO DE TESTES
 
