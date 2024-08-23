@@ -169,28 +169,22 @@ node index.js a ./tests/test_leftProblem.js
 O resultado esperado é um erro na atribuição de `transicaoSimboloLido.novoEstado` para `resultadoMovimento.estadoAtual`, na função `realizarMovimento()`. O erro ocorre devido ao condicional da função `movimentoEsquerda()`, que verifica se a cabeça de leitura e gravação já está apontando para o primeiro símbolo da fita. Se estiver, a função retorna `undefined`, fazendo com que o método que chamou `movimentoEsquerda()` produza um erro e pare a execução da aplicação.
 
 ### TESTE DO MOVIMENTO ESTÁTICO
-É possível verificar a funcionalidade de transições estáticas na Máquina de Turing do arquivo `./tests/test_abc.js`, que possui um movimento estático de q2 para q3, ao ler um símbolo vazio. Apresentando uma palavra válida para esta MT, é possível ver esta funcionalidade.
+É possível verificar a funcionalidade de transições estáticas na Máquina de Turing do arquivo `./tests/test_abc.js`, que decide para a liguagem L ={w ∈ {a,b,c}* ∣ numero de 'b's em w e impar e w termina com 'c'} e que possui um movimento estático de `q2` para `q3`, ao ler um símbolo vazio. Apresentando uma palavra válida para esta MT, é possível ver esta funcionalidade.
 
 #### Entrada Fornecida e Resultados Esperados - Movimento Estático
-Resultado esperado: Passando uma palavra válida deve-se observar o movimento estático de q2 para q3 na última transição.
+Resultado esperado: Passando uma palavra válida deve-se observar o movimento estático de `q2` para `q3` na última operação. Desta forma, espera-se que "abc" seja aceito e a transição estática se apresente na última operação.
 
 ```sh
 node index.js abc ./tests/test_abc.js
 ```
 
 Resultado observado:
-
-B q0 abcB
-
-Ba q0 bcB
-
-Bab q1 cB
-
-Babc q2 B
-
-Babc q3 B
-
-aceita 
+- `B q0 abcB`
+- `Ba q0 bcB`
+- `Bab q1 cB`
+- `Babc q2 B`
+- `Babc q3 B`
+- `aceita`
 
 ### TESTE DO NÃO DETERMINISMO
 A aplicação deve ser capaz de simular o não determinismo ao executar a máquina de turing. Para fazer este teste, foi desenviolvida a MT `./tests/test_nd.js`, para a linguagem L = {w ∈ {0,1}* ∣ w termina com 0}. 
