@@ -25,6 +25,8 @@
     - [Entrada Fornecida e Resultados Esperados - Movimento Esquerda](#entrada-fornecida-e-resultados-esperados---movimento-esquerda)
   - [TESTE DO MOVIMENTO ESTÁTICO](#teste-do-movimento-estático)
     - [Entrada Fornecida e Resultados Esperados - Movimento Estático](#entrada-fornecida-e-resultados-esperados---movimento-estático)
+  - [TESTE DO NÃO DETERMINISMO](#teste-do-nao-determinismo)
+    - [Entrada Fornecida e Resultados Esperados - Não Determinismo](#entrada-fornecida-e-resultados-esperados---nao-determinismo)
 
 ## MANUAL DO USUÁRIO
 
@@ -187,30 +189,20 @@ Resultado observado:
 - `aceita`
 
 ### TESTE DO NÃO DETERMINISMO
-A aplicação deve ser capaz de simular o não determinismo ao executar a máquina de turing. Para fazer este teste, foi desenviolvida a MT `./tests/test_nd.js`, para a linguagem L = {w ∈ {0,1}* ∣ w termina com 0}. 
+Para testar a capacidade da aplicação de simular o não-determinismo ao executar a Máquina de Turing fornecida, foi desenvolvido o arquivo de testes `./tests/test_nd.js`, que recebe uma palavra e decide para a linguagem L = {w ∈ {0,1}* ∣ w termina com 0}. 
 
-#### Entrada Fornecida e Resultados Esperados
-É esperado que a função `selecionarTransicao()` encontre transições não determinísticas e adicione-as ao objeto `fitaTransicoes` para que essas transições sejam processadas posteriormente.
+#### Entrada Fornecida e Resultados Esperados - Não Determinismo
+É esperado que a palavra "010" seja aceita e que a função `selecionarTransicao()` encontre transições não determinísticas, no processo, e adicione-as ao objeto `fitaTransicoes` para que essas transições sejam processadas posteriormente.
 
 Resultado observado: 
-_ q0 010_
-
-_0 q0 10_
-
-_01 q0 0_
-
-_010 q0 _
-
-rejeita  
-
-_0 q1 10_
-
-_01 q0 0_
-
-_010 q0 _
-
-rejeita  
-
-_010 q1 _
-
-aceita
+- `_ q0 010_`
+- `_0 q0 10_`
+- `_01 q0 0_`
+- `_010 q0 _`
+- `rejeita`
+- `_0 q1 10_`
+- `_01 q0 0_`
+- `_010 q0 _`
+- `rejeita`
+- `_010 q1 _`
+- `aceita`
