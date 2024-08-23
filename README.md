@@ -20,7 +20,7 @@
     - [Resultado Esperado e Resultado Obtido Para 0110](#resultado-esperado-e-resultado-obtido-para-0110)
     - [Resultado Esperado e Resultado Obtido Para 01](#resultado-esperado-e-resultado-obtido-para-01)
   - [TESTE DE LOOP À DIREITA](#teste-de-loop-à-direita)
-    - [Entrada Fornecida e Resultados Esperados](#entrada-fornecida-e-resultados-esperados)
+    - [Entrada Fornecida e Resultados Esperados - Movimento Direita](#entrada-fornecida-e-resultados-esperados---movimento-direita)
   - [TESTE DE QUEBRA À ESQUERDA](#teste-de-quebra-à-esquerda)
     - [Entrada Fornecida e Resultados Esperados](#entrada-fornecida-e-resultados-esperados)
   - [TESTE DO MOVIMENTO ESTÁTICO](#teste-do-movimento-estático)
