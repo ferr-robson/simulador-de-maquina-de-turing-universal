@@ -146,25 +146,27 @@ Resultado obtido:
 Existe a possibilidade da Máquina de Turing entrar em loop de acordo com a palavra e a função de transição apresentada. Para testar se a aplicação é capaz de simular o loop à direita foi criada a MT de testes `./tests/test_rightLoop.js`.
 
 #### Entrada Fornecida e Resultados Esperados
-A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste de loop à direita. 
+A fita de entrada deve conter apenas o símbolo "a" e o arquivo de teste de loop à direita.
 
 ```sh
 node index.js a ./tests/test_rightLoop.js
 ```
 
-O resultado esperado é um loop onde é lido o último símbolo vazio da fita, que será substituído por “Y”. Em seguida um novo símbolo vazio é adicionado ao final da fita. O procedimento deve se repetir até que o programa seja encerrado. Esse comportamento é esperado devido à condicional dentro da função `movimentoDireita()`, que verifica se o lado direito da fita está vazio e, se estiver, adiciona um novo símbolo vazio à direita.
+O comportamento esperado é que o programa entre em um loop infinito, substituindo o último símbolo vazio da fita por "Y" e, em seguida, adicionando um novo símbolo vazio ao final da fita. Esse ciclo de substituição e adição continuará indefinidamente até que o programa seja interrompido.
+
+Esse comportamento é resultado da condicional na função `movimentoDireita()`, que verifica se o lado direito da fita está vazio. Se estiver, a função adiciona um novo símbolo vazio à direita, provocando o loop.
 
 ### TESTE DE QUEBRA À ESQUERDA
-Quando a cabeça de leitura e gravação aponta para o primeiro símbolo da fita, não pode ser possível fazer um movimento à esquerda. Para testar se a aplicação é capaz de simular a “quebra” da máquina ao fazer um movimento à esquerda no primeiro símbolo é usado a Máquina de Turing do arquivo `./tests/test_leftProblem.js`.
+Quando a cabeça de leitura e gravação aponta para o primeiro símbolo da fita, não deve ser possível fazer um movimento à esquerda. Para testar se a aplicação é capaz de simular a "quebra" da máquina ao fazer um movimento à esquerda no primeiro símbolo é usado a Máquina de Turing do arquivo `./tests/test_leftProblem.js`.
 
 #### Entrada Fornecida e Resultados Esperados
-A fita de entrada fornecida deve ser uma palavra contendo apenas “a” e o arquivo de teste do problema à esquerda. 
+A fita de entrada deve conter apenas o símbolo "a" e o arquivo de teste do problema à esquerda.
 
 ```sh
 node index.js a ./tests/test_leftProblem.js
 ```
 
-O resultado esperado é um erro na atribuição de `transicaoSimboloLido.novoEstado` para `resultadoMovimento.estadoAtual`, na função `realizarMovimento()`. O erro ocorre devido ao condicional da função `movimentoEsquerda()`, que verifica se a cabeça de leitura e gravação já está apontando para o primeiro símbolo da fita e, se estiver, retorna undefined para a função que chamou o método `movimentoEsquerda()`.
+O resultado esperado é um erro na atribuição de `transicaoSimboloLido.novoEstado` para `resultadoMovimento.estadoAtual`, na função `realizarMovimento()`. O erro ocorre devido ao condicional da função `movimentoEsquerda()`, que verifica se a cabeça de leitura e gravação já está apontando para o primeiro símbolo da fita. Se estiver, a função retorna `undefined`, fazendo com que o método que chamou `movimentoEsquerda()` produza um erro e pare a execução da aplicação.
 
 ### TESTE DO MOVIMENTO ESTÁTICO
 É possível verificar a funcionalidade de transições estáticas na Máquina de Turing do arquivo `./tests/test_abc.js`, que possui um movimento estático de q2 para q3, ao ler um símbolo vazio. Apresentando uma palavra válida para esta MT, é possível ver esta funcionalidade.
