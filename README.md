@@ -22,9 +22,9 @@
   - [TESTE DE LOOP À DIREITA](#teste-de-loop-à-direita)
     - [Entrada Fornecida e Resultados Esperados - Movimento Direita](#entrada-fornecida-e-resultados-esperados---movimento-direita)
   - [TESTE DE QUEBRA À ESQUERDA](#teste-de-quebra-à-esquerda)
-    - [Entrada Fornecida e Resultados Esperados](#entrada-fornecida-e-resultados-esperados)
+    - [Entrada Fornecida e Resultados Esperados - Movimento Esquerda](#entrada-fornecida-e-resultados-esperados---movimento-esquerda)
   - [TESTE DO MOVIMENTO ESTÁTICO](#teste-do-movimento-estático)
-    - [Entrada Fornecida e Resultados Esperados](#entrada-fornecida-e-resultados-esperados)
+    - [Entrada Fornecida e Resultados Esperados - Movimento Estático](#entrada-fornecida-e-resultados-esperados---movimento-estático)
 
 ## MANUAL DO USUÁRIO
 
@@ -159,7 +159,7 @@ Esse comportamento é resultado da condicional na função `movimentoDireita()`,
 ### TESTE DE QUEBRA À ESQUERDA
 Quando a cabeça de leitura e gravação aponta para o primeiro símbolo da fita, não deve ser possível fazer um movimento à esquerda. Para testar se a aplicação é capaz de simular a "quebra" da máquina ao fazer um movimento à esquerda no primeiro símbolo é usado a Máquina de Turing do arquivo `./tests/test_leftProblem.js`.
 
-#### Entrada Fornecida e Resultados Esperados
+#### Entrada Fornecida e Resultados Esperados - Movimento Esquerda
 A fita de entrada deve conter apenas o símbolo "a" e o arquivo de teste do problema à esquerda.
 
 ```sh
@@ -171,7 +171,7 @@ O resultado esperado é um erro na atribuição de `transicaoSimboloLido.novoEst
 ### TESTE DO MOVIMENTO ESTÁTICO
 É possível verificar a funcionalidade de transições estáticas na Máquina de Turing do arquivo `./tests/test_abc.js`, que possui um movimento estático de q2 para q3, ao ler um símbolo vazio. Apresentando uma palavra válida para esta MT, é possível ver esta funcionalidade.
 
-#### Entrada Fornecida e Resultados Esperados
+#### Entrada Fornecida e Resultados Esperados - Movimento Estático
 Resultado esperado: Passando uma palavra válida deve-se observar o movimento estático de q2 para q3 na última transição.
 
 ```sh
